@@ -1,0 +1,170 @@
+[
+  {
+    "timestamp": 0.0,
+    "audio_text": "Let's assume your monthly income were to somehow double.",
+    "frames": [
+      {
+        "path": "output/frames/frame_0000.jpg",
+        "description": "a man in a suit and tie is standing with his hands out",
+        "timestamp": 0.0
+      }
+    ]
+  },
+  {
+    "timestamp": 4.5,
+    "audio_text": "Congratulations!",
+    "frames": [
+      {
+        "path": "output/frames/frame_0003.jpg",
+        "description": "a man holding money bags with a dollar sign",
+        "timestamp": 3.0
+      }
+    ]
+  },
+  {
+    "timestamp": 5.8,
+    "audio_text": "You can now for the most part afford to buy two times more stuff.",
+    "frames": [
+      {
+        "path": "output/frames/frame_0006.jpg",
+        "description": "a man sitting in a chair with a plate of food",
+        "timestamp": 6.0
+      }
+    ]
+  },
+  {
+    "timestamp": 10.0,
+    "audio_text": "But what if the monthly income of everyone else were to also double?",
+    "frames": [
+      {
+        "path": "output/frames/frame_0012.jpg",
+        "description": "how to make money from 2x more income",
+        "timestamp": 12.0
+      }
+    ]
+  },
+  {
+    "timestamp": 14.0,
+    "audio_text": "Well, in that case, you'd no longer be able to buy two times more stuff, because since"
+  },
+  {
+    "timestamp": 18.48,
+    "audio_text": "everyone else also earns two times more, there would be two times more money chasing"
+  },
+  {
+    "timestamp": 23.38,
+    "audio_text": "roughly the same number of goods.",
+    "frames": [
+      {
+        "path": "output/frames/frame_0024.jpg",
+        "description": "two people running away from a bag of food",
+        "timestamp": 24.0
+      }
+    ]
+  },
+  {
+    "timestamp": 25.92,
+    "audio_text": "Let's take things one step further."
+  },
+  {
+    "timestamp": 28.0,
+    "audio_text": "What if your income doubles, but the income of everyone else triples?",
+    "frames": [
+      {
+        "path": "output/frames/frame_0027.jpg",
+        "description": "a cartoon character with a lot of money",
+        "timestamp": 27.0
+      },
+      {
+        "path": "output/frames/frame_0030.jpg",
+        "description": "a cartoon of a man and woman with a sign that says,'dole '",
+        "timestamp": 30.0
+      }
+    ]
+  },
+  {
+    "timestamp": 32.0,
+    "audio_text": "In that case, you'd actually become poorer.",
+    "frames": [
+      {
+        "path": "output/frames/frame_0033.jpg",
+        "description": "a man is surrounded by money",
+        "timestamp": 33.0
+      }
+    ]
+  },
+  {
+    "timestamp": 35.0,
+    "audio_text": "Why?"
+  },
+  {
+    "timestamp": 36.0,
+    "audio_text": "Because making two times more money is not enough to keep up with everyone else, who now",
+    "frames": [
+      {
+        "path": "output/frames/frame_0036.jpg",
+        "description": "a cartoon of a man and woman standing in front of a light",
+        "timestamp": 36.0
+      }
+    ]
+  },
+  {
+    "timestamp": 40.64,
+    "audio_text": "makes three times more.",
+    "frames": [
+      {
+        "path": "output/frames/frame_0039.jpg",
+        "description": "a person holding a light and a person holding a phone",
+        "timestamp": 39.0
+      }
+    ]
+  },
+  {
+    "timestamp": 42.92,
+    "audio_text": "If there's an overall increase in the price of goods and services of x percent this year,"
+  },
+  {
+    "timestamp": 48.120000000000005,
+    "audio_text": "you have to earn at least x percent more than last year to avoid becoming poorer in real"
+  },
+  {
+    "timestamp": 52.84,
+    "audio_text": "terms."
+  },
+  {
+    "timestamp": 54.36,
+    "audio_text": "This degree makes the effects of inflation crystal clear."
+  },
+  {
+    "timestamp": 58.36,
+    "audio_text": "Today, each dollar buys you approximately 39 times less potatoes than 100 years ago,",
+    "frames": [
+      {
+        "path": "output/frames/frame_0060.jpg",
+        "description": "a small object is seen in the sky",
+        "timestamp": 60.0
+      }
+    ]
+  },
+  {
+    "timestamp": 64.84,
+    "audio_text": "or 20 times less coffee, 24 times less bread, and so on.",
+    "frames": [
+      {
+        "path": "output/frames/frame_0063.jpg",
+        "description": "a potato with the words'9 times'and'potatoes '",
+        "timestamp": 63.0
+      },
+      {
+        "path": "output/frames/frame_0066.jpg",
+        "description": "a coffee cup with a coffee cup on it and the words 20 times coffee",
+        "timestamp": 66.0
+      },
+      {
+        "path": "output/frames/frame_0069.jpg",
+        "description": "a bunch of bread with the words 24 times bread",
+        "timestamp": 69.0
+      }
+    ]
+  }
+]

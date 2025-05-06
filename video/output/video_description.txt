@@ -1,0 +1,13 @@
+**Video Story Description:**  
+
+The video opens with a man in a suit gesturing thoughtfully, posing the hypothetical scenario: *"Let's assume your monthly income were to somehow double."* His confident stance sets the stage for exploring economic principles. (0.00s, *output/frames/frame_0000.jpg*)  
+
+The tone shifts to celebration as a man holding money bags appears, accompanied by the audio *"Congratulations! You can now afford to buy two times more stuff."* A subsequent scene shows him relaxed in a chair with a plate of food, symbolizing newfound purchasing power. (4.50s–5.80s, *output/frames/frame_0003.jpg*, *output/frames/frame_0006.jpg*)  
+
+The narrative pivots with a critical question: *"What if everyone else’s income also doubled?"* Visuals transition to abstract graphics of money dynamics as the explanation unfolds: doubling universal incomes would lead to *"two times more money chasing the same goods,"* negating individual gains. A chaotic scene of people fleeing a shrinking food bag underscores scarcity amid inflation. (10.00s–23.38s, *output/frames/frame_0012.jpg*, *output/frames/frame_0024.jpg*)  
+
+The stakes heighten with a new scenario: *"What if your income doubles, but others’ triple?"* Cartoon characters with exaggerated wealth contrasts illustrate the answer: *"You’d actually become poorer."* A man surrounded by money but overshadowed by others’ higher earnings drives home the disparity. (28.00s–40.64s, *output/frames/frame_0027.jpg*, *output/frames/frame_0030.jpg*, *output/frames/frame_0033.jpg*, *output/frames/frame_0036.jpg*, *output/frames/frame_0039.jpg*)  
+
+The conclusion ties inflation’s real-world impact to historical data: *"Each dollar today buys 39 times fewer potatoes, 20 times less coffee, and 24 times less bread than 100 years ago."* Visuals of shrinking goods and bold text emphasize eroded purchasing power over time. (58.36s–64.84s, *output/frames/frame_0060.jpg*, *output/frames/frame_0063.jpg*, *output/frames/frame_0066.jpg*, *output/frames/frame_0069.jpg*)  
+
+The video closes by framing inflation as a relentless force, urging viewers to recognize the necessity of outpacing it financially.
