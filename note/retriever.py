@@ -25,7 +25,8 @@ def get_similarity_search_retriever(k: int = 3, fetch_k: int = 20, metadata_filt
 def get_history_aware_retriever():
     contextualize_q_prompt = get_contexualize_history_aware_q_prompt()
     #retiriever = get_similarity_search_retriever()
-    retiriever = get_selfquery_retriever()
+    #retiriever = get_selfquery_retriever()
+    retiriever = get_mmr_retriever()
 
     history_aware_retriever = create_history_aware_retriever(
         llm, retiriever, contextualize_q_prompt
@@ -46,7 +47,7 @@ def retrieve_similar_documents_with_scores(query: str, k: int = 3):
     return results
 
 
-def retrieve_mmr_documents(query: str, k: int = 2, fetch_k: int = 10, lambda_mult: float = 0.5):
+def get_mmr_retriever(k: int = 5, fetch_k: int = 10, lambda_mult: float = 0.5):
     vectordb = get_vectorstore()
     retriever = vectordb.as_retriever(
         search_type="mmr",
@@ -56,10 +57,11 @@ def retrieve_mmr_documents(query: str, k: int = 2, fetch_k: int = 10, lambda_mul
             "lambda_mult": lambda_mult
         }
     )
-    return retriever.get_relevant_documents(query)
+
+    return retriever
 
 
-def get_selfquery_retriever(k: int = 3, fetch_k: int = 20, metadata_filter=None):
+def get_selfquery_retriever(k: int = 5, fetch_k: int = 20, metadata_filter=None):
     vectordb = get_vectorstore()
 
     metadata_field_info = [
