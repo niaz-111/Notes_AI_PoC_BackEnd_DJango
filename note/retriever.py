@@ -47,7 +47,7 @@ def retrieve_similar_documents_with_scores(query: str, k: int = 3):
     return results
 
 
-def get_mmr_retriever(k: int = 5, fetch_k: int = 10, lambda_mult: float = 0.5):
+def get_mmr_retriever(k: int = 50, fetch_k: int = 150, lambda_mult: float = 0.5):
     vectordb = get_vectorstore()
     retriever = vectordb.as_retriever(
         search_type="mmr",
@@ -61,7 +61,7 @@ def get_mmr_retriever(k: int = 5, fetch_k: int = 10, lambda_mult: float = 0.5):
     return retriever
 
 
-def get_selfquery_retriever(k: int = 5, fetch_k: int = 20, metadata_filter=None):
+def get_selfquery_retriever(k: int = 50, fetch_k: int = 150, metadata_filter=None):
     vectordb = get_vectorstore()
 
     metadata_field_info = [
