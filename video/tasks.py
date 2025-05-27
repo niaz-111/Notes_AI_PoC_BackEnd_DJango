@@ -21,7 +21,11 @@ def process_uploaded_video(video_path, video_id):
         output_dir = f"temp_output/{video_id}"
         os.makedirs(output_dir, exist_ok=True)
 
+        print("video processing started...")
+
         result = process_video(video_path, output_dir)
+
+        print("video processing ended...")
 
         audio_transcription = transcribe_audio(result["audio"], output_dir)
         frame_descriptions = generate_frame_descriptions(result["frames"], output_dir)

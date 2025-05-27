@@ -8,4 +8,5 @@ def extract_audio(video_path, audio_path):
         clip.audio.write_audiofile(audio_path, logger=None)
         pbar.update(100)
     clip.close()
+    print("audio extraction completed")
     return audio_path
