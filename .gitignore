@@ -1,4 +1,29 @@
-# Django #
+# Python virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Python byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment variables
+# .env
+
+# Logs
 *.log
 *.pot
 *.pyc
@@ -136,3 +161,10 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Audio and video files
+*.mp3
+*.wav
+*.mp4
+*.avi
+*.mov 

@@ -21,4 +21,5 @@ import note
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include('note.urls')),
+    path('api/video/', include('video.urls')),
 ]
