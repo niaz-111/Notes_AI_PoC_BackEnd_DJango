@@ -9,6 +9,7 @@ from .vectorestore import delete_note_by_uid
 from .qa_chain import get_conversational_rag_chain
 from .vectorestore import get_vectorstore
 from .qa_chain import get_retrieval_qa_chain
+from .chat_session_manager import clear_all_sessions
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
@@ -71,7 +72,7 @@ def ask_question(request):
             },
             )["answer"]
 
-        answer = f"Echoing: {question} — {answer}"
+        answer = f"{answer}"
 
         return Response({"answer": answer}, status=status.HTTP_200_OK)
 
@@ -106,3 +107,9 @@ def retrieval_chain_qa(request):
         return Response({"answer": result["result"]}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+@api_view(['GET'])
+def clear_all_hat_sessions_api(request):
+    clear_all_sessions()
+    return Response({"message": "All chat sessions cleared."}, status=status.HTTP_200_OK)

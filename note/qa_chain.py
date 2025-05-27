@@ -3,7 +3,7 @@ from .prompt_template import get_prompt_template, get_qa_system_prompt
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from .llm_instance import llm
 from .vectorestore import get_vectorstore
-from .retriever import get_history_aware_retriever, get_similarity_search_retriever
+from .retriever import get_history_aware_retriever, get_similarity_search_retriever, get_mmr_retriever
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from .chat_session_manager import get_session_history

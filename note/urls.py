@@ -7,4 +7,5 @@ urlpatterns = [
     path('ask_question/', ask_question, name='ask_question'),
     path('clear_notes/', clear_notes, name='clear_notes'),
     path('retrieval_chain_qa/', retrieval_chain_qa, name='retrieval_chain_qa'),
+    path('clear_all_hat_sessions_api/', clear_all_hat_sessions_api, name='clear_all_hat_sessions_api')
 ]
