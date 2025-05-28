@@ -38,7 +38,7 @@ def generate_video_description(combined_transcription_path, output_dir):
     print("Preparing prompt...")
     prompt = """You are a professional video narrator. Based on the following video segments, create a concise and content-rich story format description of the video. 
     Focus on the key events and information, maintaining a clear chronological flow. 
-    After each paragraph, include the relevant timestamp and frame path in parentheses when available.
+    After each paragraph, include the relevant timestamp starting with key TIMESTAMP and when frame available include path with key SNAP with inclusive [].
     
     Video Segments:
     """
@@ -54,7 +54,7 @@ def generate_video_description(combined_transcription_path, output_dir):
                 prompt += f"\nImage path: {frame['path']}"
         prompt += "\n"
     
-    prompt += "\nPlease provide a concise story-format description of the video, with timestamps and frame paths in parentheses when available."
+    prompt += "\nPlease provide a concise story-format description of the video, After each paragraph, include the relevant timestamp starting with key TIMESTAMP and when frame available include path with key SNAP with inclusive []."
     
     print("Sending request to OpenAI API...")
     try:

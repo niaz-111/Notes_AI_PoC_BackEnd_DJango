@@ -12,3 +12,7 @@ def run_full_pipeline(video_path):
     combined_path = combine_transcriptions(audio_transcription, frame_descriptions, output_dir)
     description_path = generate_video_description(combined_path, output_dir)
     return description_path
+
+
+if __name__ == "__main__":
+    run_full_pipeline("input/sample_video_1.mp4")
