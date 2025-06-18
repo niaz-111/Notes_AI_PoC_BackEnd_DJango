@@ -1,182 +1,179 @@
-Package                                  Version
----------------------------------------- -----------
-aiohappyeyeballs                         2.6.1
-aiohttp                                  3.11.16
-aiosignal                                1.3.2
-amqp                                     5.3.1
-annotated-types                          0.7.0
-anyio                                    4.9.0
-asgiref                                  3.8.1
-attrs                                    25.3.0
-backoff                                  2.2.1
-bcrypt                                   4.3.0
-billiard                                 4.2.1
-build                                    1.2.2.post1
-cachetools                               5.5.2
-celery                                   5.5.2
-certifi                                  2025.1.31
-charset-normalizer                       3.4.1
-chroma-hnswlib                           0.7.6
-chromadb                                 1.0.4
-click                                    8.1.8
-click-didyoumean                         0.3.1
-click-plugins                            1.1.1
-click-repl                               0.3.0
-colorama                                 0.4.6
-coloredlogs                              15.0.1
-dataclasses-json                         0.6.7
-decorator                                5.2.1
-Deprecated                               1.2.18
-distro                                   1.9.0
-Django                                   5.2
-djangorestframework                      3.16.0
-djangorestframework-jsonapi              7.1.0
-durationpy                               0.9
-fastapi                                  0.115.9
-filelock                                 3.18.0
-filetype                                 1.2.0
-flatbuffers                              25.2.10
-frozenlist                               1.5.0
-fsspec                                   2025.3.2
-google-ai-generativelanguage             0.6.15
-google-api-core                          2.25.0rc0
-google-api-python-client                 2.168.0
-google-auth                              2.38.0
-google-auth-httplib2                     0.2.0
-google-generativeai                      0.8.5
-googleapis-common-protos                 1.69.2
-greenlet                                 3.1.1
-grpcio                                   1.71.0
-grpcio-status                            1.71.0
-h11                                      0.14.0
-httpcore                                 1.0.7
-httplib2                                 0.22.0
-httptools                                0.6.4
-httpx                                    0.28.1
-httpx-sse                                0.4.0
-huggingface-hub                          0.30.2
-humanfriendly                            10.0
-idna                                     3.10
-ImageHash                                4.3.2
-imageio                                  2.37.0
-imageio-ffmpeg                           0.6.0
-importlib_metadata                       8.6.1
-importlib_resources                      6.5.2
-inflection                               0.5.1
-Jinja2                                   3.1.6
-jiter                                    0.9.0
-jsonpatch                                1.33
-jsonpointer                              3.0.0
-jsonschema                               4.23.0
-jsonschema-specifications                2024.10.1
-kombu                                    5.5.3
-kubernetes                               32.0.1
-langchain                                0.3.23
-langchain-community                      0.3.21
-langchain-core                           0.3.52
-langchain-google-genai                   2.0.10
-langchain-ollama                         0.3.1
-langchain-openai                         0.3.13
-langchain-text-splitters                 0.3.8
-langsmith                                0.3.30
-lark                                     1.2.2
-llvmlite                                 0.44.0
-markdown-it-py                           3.0.0
-MarkupSafe                               3.0.2
-marshmallow                              3.26.1
-mdurl                                    0.1.2
-mmh3                                     5.1.0
-monotonic                                1.6
-more-itertools                           10.7.0
-moviepy                                  2.2.1
-mpmath                                   1.3.0
-multidict                                6.4.3
-mypy-extensions                          1.0.0
-networkx                                 3.4.2
-numba                                    0.61.2
-numpy                                    2.2.4
-oauthlib                                 3.2.2
-ollama                                   0.4.7
-onnxruntime                              1.21.0
-openai                                   1.74.1
-openai-whisper                           20240930
-opencv-python                            4.11.0.86
-opentelemetry-api                        1.32.0
-opentelemetry-exporter-otlp-proto-common 1.32.0
-opentelemetry-exporter-otlp-proto-grpc   1.32.0
-opentelemetry-instrumentation            0.53b0
-opentelemetry-instrumentation-asgi       0.53b0
-opentelemetry-instrumentation-fastapi    0.53b0
-opentelemetry-proto                      1.32.0
-opentelemetry-sdk                        1.32.0
-opentelemetry-semantic-conventions       0.53b0
-opentelemetry-util-http                  0.53b0
-orjson                                   3.10.16
-overrides                                7.7.0
-packaging                                24.2
-pillow                                   11.2.1
-pip                                      25.0.1
-posthog                                  3.24.0
-proglog                                  0.1.12
-prompt_toolkit                           3.0.51
-propcache                                0.3.1
-proto-plus                               1.26.1
-protobuf                                 5.29.4
-pyasn1                                   0.6.1
-pyasn1_modules                           0.4.2
-pydantic                                 2.11.3
-pydantic_core                            2.33.1
-pydantic-settings                        2.8.1
-Pygments                                 2.19.1
-pyparsing                                3.2.3
-PyPika                                   0.48.9
-pyproject_hooks                          1.2.0
-pyreadline3                              3.5.4
-python-dateutil                          2.9.0.post0
-python-dotenv                            1.1.0
-PyWavelets                               1.8.0
-PyYAML                                   6.0.2
-redis                                    6.1.0
-referencing                              0.36.2
-regex                                    2024.11.6
-requests                                 2.32.3
-requests-oauthlib                        2.0.0
-requests-toolbelt                        1.0.0
-rich                                     14.0.0
-rpds-py                                  0.24.0
-rsa                                      4.9
-safetensors                              0.5.3
-scipy                                    1.15.3
-setuptools                               80.8.0
-shellingham                              1.5.4
-six                                      1.17.0
-sniffio                                  1.3.1
-SQLAlchemy                               2.0.40
-sqlparse                                 0.5.3
-starlette                                0.45.3
-sympy                                    1.13.3
-tenacity                                 9.1.2
-tiktoken                                 0.9.0
-tokenizers                               0.21.1
-torch                                    2.7.1
-torchvision                              0.22.1
-tqdm                                     4.67.1
-transformers                             4.52.3
-typer                                    0.15.2
-typing_extensions                        4.13.2
-typing-inspect                           0.9.0
-typing-inspection                        0.4.0
-tzdata                                   2025.2
-uritemplate                              4.1.1
-urllib3                                  2.4.0
-uvicorn                                  0.34.0
-vine                                     5.1.0
-watchfiles                               1.0.5
-wcwidth                                  0.2.13
-websocket-client                         1.8.0
-websockets                               15.0.1
-whisper                                  1.1.10
-wrapt                                    1.17.2
-yarl                                     1.19.0
-zipp                                     3.21.0
-zstandard                                0.23.0
+aiohappyeyeballs==2.6.1
+aiohttp==3.11.16
+aiosignal==1.3.2
+amqp==5.3.1
+annotated-types==0.7.0
+anyio==4.9.0
+asgiref==3.8.1
+attrs==25.3.0
+backoff==2.2.1
+bcrypt==4.3.0
+billiard==4.2.1
+build==1.2.2.post1
+cachetools==5.5.2
+celery==5.5.2
+certifi==2025.1.31
+charset-normalizer==3.4.1
+chroma-hnswlib==0.7.6
+chromadb==1.0.4
+click==8.1.8
+click-didyoumean==0.3.1
+click-plugins==1.1.1
+click-repl==0.3.0
+colorama==0.4.6
+coloredlogs==15.0.1
+dataclasses-json==0.6.7
+decorator==5.2.1
+Deprecated==1.2.18
+distro==1.9.0
+Django==5.2
+djangorestframework==3.16.0
+djangorestframework-jsonapi==7.1.0
+durationpy==0.9
+fastapi==0.115.9
+filelock==3.18.0
+filetype==1.2.0
+flatbuffers==25.2.10
+frozenlist==1.5.0
+fsspec==2025.3.2
+google-ai-generativelanguage==0.6.15
+google-api-core==2.25.0rc0
+google-api-python-client==2.168.0
+google-auth==2.38.0
+google-auth-httplib2==0.2.0
+google-generativeai==0.8.5
+googleapis-common-protos==1.69.2
+greenlet==3.1.1
+grpcio==1.71.0
+grpcio-status==1.71.0
+h11==0.14.0
+httpcore==1.0.7
+httplib2==0.22.0
+httptools==0.6.4
+httpx==0.28.1
+httpx-sse==0.4.0
+huggingface-hub==0.30.2
+humanfriendly==10.0
+idna==3.10
+ImageHash==4.3.2
+imageio==2.37.0
+imageio-ffmpeg==0.6.0
+importlib_metadata==8.6.1
+importlib_resources==6.5.2
+inflection==0.5.1
+Jinja2==3.1.6
+jiter==0.9.0
+jsonpatch==1.33
+jsonpointer==3.0.0
+jsonschema==4.23.0
+jsonschema-specifications==2024.10.1
+kombu==5.5.3
+kubernetes==32.0.1
+langchain==0.3.23
+langchain-community==0.3.21
+langchain-core==0.3.52
+langchain-google-genai==2.0.10
+langchain-ollama==0.3.1
+langchain-openai==0.3.13
+langchain-text-splitters==0.3.8
+langsmith==0.3.30
+lark==1.2.2
+llvmlite==0.44.0
+markdown-it-py==3.0.0
+MarkupSafe==3.0.2
+marshmallow==3.26.1
+mdurl==0.1.2
+mmh3==5.1.0
+monotonic==1.6
+more-itertools==10.7.0
+moviepy==2.2.1
+mpmath==1.3.0
+multidict==6.4.3
+mypy-extensions==1.0.0
+networkx==3.4.2
+numba==0.61.2
+numpy==2.2.4
+oauthlib==3.2.2
+ollama==0.4.7
+onnxruntime==1.21.0
+openai==1.74.1
+openai-whisper @ git+https://github.com/openai/whisper.git@dd985ac4b90cafeef8712f2998d62c59c3e62d22
+opencv-python==4.11.0.86
+opentelemetry-api==1.32.0
+opentelemetry-exporter-otlp-proto-common==1.32.0
+opentelemetry-exporter-otlp-proto-grpc==1.32.0
+opentelemetry-instrumentation==0.53b0
+opentelemetry-instrumentation-asgi==0.53b0
+opentelemetry-instrumentation-fastapi==0.53b0
+opentelemetry-proto==1.32.0
+opentelemetry-sdk==1.32.0
+opentelemetry-semantic-conventions==0.53b0
+opentelemetry-util-http==0.53b0
+orjson==3.10.16
+overrides==7.7.0
+packaging==24.2
+pillow==11.2.1
+posthog==3.24.0
+proglog==0.1.12
+prompt_toolkit==3.0.51
+propcache==0.3.1
+proto-plus==1.26.1
+protobuf==5.29.4
+pyasn1==0.6.1
+pyasn1_modules==0.4.2
+pydantic==2.11.3
+pydantic-settings==2.8.1
+pydantic_core==2.33.1
+Pygments==2.19.1
+pyparsing==3.2.3
+PyPika==0.48.9
+pyproject_hooks==1.2.0
+pyreadline3==3.5.4
+python-dateutil==2.9.0.post0
+python-dotenv==1.1.0
+PyWavelets==1.8.0
+PyYAML==6.0.2
+redis==6.1.0
+referencing==0.36.2
+regex==2024.11.6
+requests==2.32.3
+requests-oauthlib==2.0.0
+requests-toolbelt==1.0.0
+rich==14.0.0
+rpds-py==0.24.0
+rsa==4.9
+safetensors==0.5.3
+scipy==1.15.3
+setuptools==80.8.0
+shellingham==1.5.4
+six==1.17.0
+sniffio==1.3.1
+SQLAlchemy==2.0.40
+sqlparse==0.5.3
+starlette==0.45.3
+sympy==1.13.3
+tenacity==9.1.2
+tiktoken==0.9.0
+tokenizers==0.21.1
+torch==2.7.1
+torchvision==0.22.1
+tqdm==4.67.1
+transformers==4.52.3
+typer==0.15.2
+typing-inspect==0.9.0
+typing-inspection==0.4.0
+typing_extensions==4.13.2
+tzdata==2025.2
+uritemplate==4.1.1
+urllib3==2.4.0
+uvicorn==0.34.0
+vine==5.1.0
+watchfiles==1.0.5
+wcwidth==0.2.13
+websocket-client==1.8.0
+websockets==15.0.1
+whisper==1.1.10
+wrapt==1.17.2
+yarl==1.19.0
+zipp==3.21.0
+zstandard==0.23.0
