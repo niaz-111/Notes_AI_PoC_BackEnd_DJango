@@ -5,6 +5,7 @@ from .views import *
 urlpatterns = [
     path("load_note/", upload_note_with_file, name="upload_note_with_file"),
     path('ask_question/', ask_question, name='ask_question'),
+    path('ask_question_agent/', ask_question_agent, name='ask_question_agent'),
     path('clear_notes/', clear_notes, name='clear_notes'),
     path('retrieval_chain_qa/', retrieval_chain_qa, name='retrieval_chain_qa'),
     path('clear_all_hat_sessions_api/', clear_all_hat_sessions_api, name='clear_all_hat_sessions_api')

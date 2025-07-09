@@ -10,6 +10,8 @@ from .qa_chain import get_conversational_rag_chain
 from .vectorestore import get_vectorstore
 from .qa_chain import get_retrieval_qa_chain
 from .chat_session_manager import clear_all_sessions
+from .agent_executor import get_agent_executor
+from .query_classifier import is_agent_task
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
@@ -54,6 +56,41 @@ def upload_note_with_file(request):
 
 # Placeholder for actual logic
 # from .chat_engine import get_answer_from_langchain
+
+@api_view(['POST'])
+def ask_question_agent(request):
+    user_input = request.data.get('question')
+    if not user_input:
+        return Response({"error": "Question is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        if is_agent_task(user_input):
+            agent_executor = get_agent_executor()
+            result = agent_executor.run(user_input)
+
+            import json
+            try:
+                agent_response = json.loads(result)
+                return Response({
+                    "type": "agent",
+                    "agent_data": agent_response
+                }, status=status.HTTP_200_OK)
+            except Exception:
+                # fallback: just return as text
+                return Response({
+                    "type": "agent",
+                    "answer": result
+                }, status=status.HTTP_200_OK)
+
+        else:
+            conversational_rag_chain = get_conversational_rag_chain()
+            response = conversational_rag_chain.invoke({"input": user_input}, config={"configurable": {"session_id": "abc123"}})
+            answer = response.get("answer", "Sorry, I don't know the answer.")
+            return Response({"type": "chat", "answer": answer}, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @api_view(['POST'])
 def ask_question(request):
