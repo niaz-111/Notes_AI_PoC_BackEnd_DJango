@@ -7,7 +7,7 @@ from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import LLMChainExtractor
 from langchain.chains import create_history_aware_retriever
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from .prompt_template import get_contexualize_history_aware_q_prompt
+from .prompt_template import get_contexualize_history_aware_q_prompt, get_contexualize_history_aware_q_prompt_image_caption
 
 
 def get_similarity_search_retriever(k: int = 3, fetch_k: int = 20, metadata_filter=None):
@@ -23,7 +23,8 @@ def get_similarity_search_retriever(k: int = 3, fetch_k: int = 20, metadata_filt
 
 
 def get_history_aware_retriever():
-    contextualize_q_prompt = get_contexualize_history_aware_q_prompt()
+    #contextualize_q_prompt = get_contexualize_history_aware_q_prompt()
+    contextualize_q_prompt = get_contexualize_history_aware_q_prompt_image_caption()
     #retiriever = get_similarity_search_retriever()
     #retiriever = get_selfquery_retriever()
     retiriever = get_mmr_retriever()
@@ -74,6 +75,11 @@ def get_selfquery_retriever(k: int = 50, fetch_k: int = 150, metadata_filter=Non
             name="title",
             description="The title of the document",
             type="string",
+        ),
+        AttributeInfo(
+        name="contains_image",
+        description="True if the chunk includes an image caption or path",
+        type="bool"
         ),
     ]
 

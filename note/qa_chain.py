@@ -1,5 +1,5 @@
 from langchain.chains import RetrievalQA,create_retrieval_chain
-from .prompt_template import get_prompt_template, get_qa_system_prompt
+from .prompt_template import get_prompt_template, get_qa_system_prompt, get_qa_system_prompt_image_caption
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from .llm_instance import llm
 from .vectorestore import get_vectorstore
@@ -40,7 +40,8 @@ def get_rag_retrieval_chain(retriever, format_docs, prompt, llm):
 #for convesational rag chain with chat history with LCEL
 
 def get_question_answer_chain():
-    qa_prompt = get_qa_system_prompt()
+    #qa_prompt = get_qa_system_prompt()
+    qa_prompt = get_qa_system_prompt_image_caption()
 
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     return question_answer_chain

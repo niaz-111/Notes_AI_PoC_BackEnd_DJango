@@ -1,6 +1,7 @@
 from langchain_core.tools import tool
 from .llm_instance import llm
 from .vectorestore import get_vectorstore
+import json
 
 @tool
 def create_note_from_prompt(prompt: str) -> dict:
@@ -45,7 +46,7 @@ content: <note content>
     if not title or not note_content:
         return {"error": "Failed to generate a note with title and content."}
 
-    return {"title": title, "content": note_content}
+    return json.dumps({"title": title, "content": note_content})
 
 
 @tool
@@ -67,12 +68,55 @@ def open_note_tool(query: str) -> dict:
         title = top_doc.metadata.get("title", "Untitled")
         content = top_doc.page_content
 
-        return {
+        return json.dumps({
             "note_found": True,
             "note_title": title,
             "note_content": content,
             "note_uid": top_doc.metadata.get("uid", "")
-        }
+        })
 
     except Exception as e:
         return {"note_found": False, "error": f"Error retrieving notes: {str(e)}"}
+    
+
+    from langchain.tools import tool
+
+
+@tool
+def search_note_tool(query: str) -> str:
+    """
+    Searches for notes by topic, title, or content keywords.
+    Returns a JSON string with a list of matching note previews (title, snippet, uid).
+    """
+
+    try:
+        vectorstore = get_vectorstore()
+        results = vectorstore.similarity_search(query, k=10)
+
+        if not results:
+            return json.dumps({
+                "matches_found": False,
+                "notes": [],
+                "error": "No relevant notes found."
+            })
+
+        notes = []
+        for doc in results:
+            notes.append({
+                "note_title": doc.metadata.get("title", "Untitled"),
+                "note_uid": doc.metadata.get("uid", ""),
+                "note_preview": doc.page_content[:200]
+            })
+
+        return json.dumps({
+            "matches_found": True,
+            "query": query,
+            "notes": notes
+        })
+
+    except Exception as e:
+        return json.dumps({
+            "matches_found": False,
+            "notes": [],
+            "error": f"Error searching notes: {str(e)}"
+        })

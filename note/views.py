@@ -11,47 +11,63 @@ from .vectorestore import get_vectorstore
 from .qa_chain import get_retrieval_qa_chain
 from .chat_session_manager import clear_all_sessions
 from .agent_executor import get_agent_executor
-from .query_classifier import is_agent_task
+from .query_classifier import is_agent_task,is_agent_task_precise
+from .image_description_generator import generate_image_caption
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 def upload_note_with_file(request):
     uid = request.POST.get('uid')
     title = request.POST.get('title')
-    text_file = request.FILES.get('text_file')
-    text_content = request.POST.get('text_content')
 
     if not uid or not title:
         return Response({"error": "uid, title, and text_file are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-    if not text_file and not text_content:
-        return Response({"error": "Either text_file or text_content is required."}, status=status.HTTP_400_BAD_REQUEST)
+    text_file = request.FILES.get('text_file')
+    text_content = request.POST.get('text_content')
+
+    full_content = ""
 
     try:
         if text_file:
             if not text_file.name.endswith('.txt'):
                 return Response({"error": "Only .txt files are accepted."}, status=status.HTTP_400_BAD_REQUEST)
             text = text_file.read().decode('utf-8')
+        elif text_content:
+            full_content = text_content
         else:
-            text = text_content
+            note_parts = []
+            i = 0
+            image_index = 0
+            while True:
+                if f"part_{i}_type" not in request.POST:
+                    break
 
-        note_data = {
+                part_type = request.POST.get(f"part_{i}_type")
+                if part_type == "text":
+                    text = request.POST.get(f"part_{i}_text", "")
+                    note_parts.append(f"[Text]: {text.strip()}")
+                elif part_type == "image":
+                    path = request.POST.get(f"part_{i}_image_path", "")
+                    caption = generate_image_caption(path)  # Local captioning
+                    note_parts.append(f"[Image {image_index+1} Caption]: {caption}\n[Image Path]: {path}")
+                    image_index += 1
+                i += 1
+
+            full_content = "\n\n".join(note_parts)
+
+        
+        delete_note_by_uid(uid)
+        run_ingestion_pipeline([{
             "uid": uid,
             "title": title,
-            "content": text,
-        }
+            "content": full_content
+        }])
 
-        delete_note_by_uid(uid)
-        notes_list = []
-        notes_list.append(note_data)
-
-        run_ingestion_pipeline(notes_list)
-        
-        return Response("ok", status=status.HTTP_201_CREATED)
+        return Response("ok", status=201)
 
     except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+        return Response({"error": str(e)}, status=500)
 
 
 # Placeholder for actual logic
@@ -64,7 +80,7 @@ def ask_question_agent(request):
         return Response({"error": "Question is required."}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        if is_agent_task(user_input):
+        if is_agent_task_precise(user_input):
             agent_executor = get_agent_executor()
             result = agent_executor.run(user_input)
 
