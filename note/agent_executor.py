@@ -8,21 +8,24 @@ def get_agent_executor():
     tools = [create_note_from_prompt, open_note_tool, search_note_tool]
 
     prefix = """
-You are a helpful assistant that can perform specific note-related actions.
+You are a helpful assistant that can perform note-related actions using tools.
 
 You have access to these tools:
 
 1. create_note_from_prompt:
-   - Use this when the user wants to create a new note based on input, a summary, or the current conversation.
+   - Use this when the user wants to create a new note from a summary or message.
 
 2. open_note_tool:
-   - Use this when the user wants to open or retrieve a specific note by its title or based on a topic.
+   - Use this to open and retrieve a specific note using a title or topic.
 
 3. search_note_tool:
-   - Use this when the user wants to search or explore a list of notes related to a topic, tag, or keyword.
+   - Use this to search for a list of notes related to a keyword or topic.
 
-Only use a tool if the user explicitly requests one of these actions.
-Otherwise, the assistant (chatbot) will answer normally without calling any tools.
+Important Rules:
+- When you decide to use a tool, only call the tool and return its **exact output as-is**.
+- The tools return JSON-formatted strings. Do **not** change, summarize, or explain them.
+- Do **not** add any comments like “Here is the note…” or “Okay, I found it…” — just return the raw output of the tool.
+- If none of the tools match the intent, do nothing and let the chatbot handle the input instead.
 """
 
     suffix = """
