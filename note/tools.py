@@ -3,13 +3,13 @@ from .llm_instance import llm
 from .vectorestore import get_vectorstore
 import json
 
+# === Tool 1: Create Note from Prompt ===
 @tool
-def create_note_from_prompt(prompt: str) -> dict:
+def create_note_from_prompt(prompt: str) -> str:
     """
     Creates a note from a natural language prompt.
-    Returns a dict with keys: title, content, or an error message.
+    Returns a JSON string with keys: title, content.
     """
-
     system_instruction = """
 You are an intelligent note-creating agent.
 
@@ -27,7 +27,6 @@ Respond only in the format:
 title: <title of the note>
 content: <note content>
 """
-
     full_prompt = f"{system_instruction}\n\nUser prompt:\n{prompt}"
     response = llm.invoke(full_prompt)
 
@@ -44,51 +43,46 @@ content: <note content>
             note_content = line.split(":", 1)[1].strip()
 
     if not title or not note_content:
-        return {"error": "Failed to generate a note with title and content."}
+        return json.dumps({"error": "Failed to generate a note with title and content."})
 
     return json.dumps({"title": title, "content": note_content})
 
 
+# === Tool 2: Open Note by Query ===
 @tool
-def open_note_tool(query: str) -> dict:
+def open_note_tool(query: str) -> str:
     """
-    Use vectorstore similarity search to find the most relevant note chunk(s) for the query.
-    Returns a dictionary with the best matching note info.
+    Use vectorstore similarity search to find the most relevant note.
+    Input: query string (title or topic)
+    Output: JSON with note_found, title, content, uid or error.
     """
-
     try:
         vectorstore = get_vectorstore()
         results = vectorstore.similarity_search(query, k=3)
 
         if not results:
-            return {"note_found": False, "error": "No relevant notes found."}
+            return json.dumps({"note_found": False, "error": "No relevant notes found."})
 
         top_doc = results[0]
 
-        title = top_doc.metadata.get("title", "Untitled")
-        content = top_doc.page_content
-
         return json.dumps({
             "note_found": True,
-            "note_title": title,
-            "note_content": content,
+            "note_title": top_doc.metadata.get("title", "Untitled"),            
             "note_uid": top_doc.metadata.get("uid", "")
         })
 
     except Exception as e:
-        return {"note_found": False, "error": f"Error retrieving notes: {str(e)}"}
-    
-
-    from langchain.tools import tool
+        return json.dumps({"note_found": False, "error": f"Error retrieving notes: {str(e)}"})
 
 
+# === Tool 3: Search Notes ===
 @tool
 def search_note_tool(query: str) -> str:
     """
     Searches for notes by topic, title, or content keywords.
-    Returns a JSON string with a list of matching note previews (title, snippet, uid).
+    Input: query string
+    Output: JSON with list of matching note previews.
     """
-
     try:
         vectorstore = get_vectorstore()
         results = vectorstore.similarity_search(query, k=10)
@@ -104,8 +98,7 @@ def search_note_tool(query: str) -> str:
         for doc in results:
             notes.append({
                 "note_title": doc.metadata.get("title", "Untitled"),
-                "note_uid": doc.metadata.get("uid", ""),
-                "note_preview": doc.page_content[:200]
+                "note_uid": doc.metadata.get("uid", ""),                
             })
 
         return json.dumps({
@@ -120,3 +113,4 @@ def search_note_tool(query: str) -> str:
             "notes": [],
             "error": f"Error searching notes: {str(e)}"
         })
+

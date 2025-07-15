@@ -10,9 +10,11 @@ from .qa_chain import get_conversational_rag_chain
 from .vectorestore import get_vectorstore
 from .qa_chain import get_retrieval_qa_chain
 from .chat_session_manager import clear_all_sessions
-from .agent_executor import get_agent_executor
+from .agent_executor import get_agent_executor, get_agent_executor_with_history
 from .query_classifier import is_agent_task,is_agent_task_precise
 from .image_description_generator import generate_image_caption
+from langchain_core.exceptions import OutputParserException
+import json
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
@@ -73,6 +75,7 @@ def upload_note_with_file(request):
 # Placeholder for actual logic
 # from .chat_engine import get_answer_from_langchain
 
+
 @api_view(['POST'])
 def ask_question_agent(request):
     user_input = request.data.get('question')
@@ -81,22 +84,46 @@ def ask_question_agent(request):
 
     try:
         if is_agent_task_precise(user_input):
-            agent_executor = get_agent_executor()
-            result = agent_executor.run(user_input)
+            agent_executor = get_agent_executor_with_history()
 
-            import json
             try:
-                agent_response = json.loads(result)
+                result = agent_executor.invoke(
+                    {"input": user_input},
+                    config={"configurable": {"session_id": "abc123"}}
+                )
+            except OutputParserException as e:
+                # LLM didn't call a tool or produced a natural reply
                 return Response({
                     "type": "agent",
-                    "agent_data": agent_response
+                    "answer": str(e)  # fallback as plain message
                 }, status=status.HTTP_200_OK)
-            except Exception:
-                # fallback: just return as text
+
+            # Try parsing the agent tool result
+            if isinstance(result, dict):
                 return Response({
                     "type": "agent",
-                    "answer": result
+                    "agent_data": result
                 }, status=status.HTTP_200_OK)
+
+            elif isinstance(result, str):
+                # Try parsing JSON if it was a dumped string (tool may return JSON string by mistake)
+                try:
+                    agent_data = json.loads(result)
+                    if isinstance(agent_data, dict):
+                        return Response({
+                            "type": "agent",
+                            "agent_data": agent_data
+                        }, status=status.HTTP_200_OK)
+                    else:
+                        return Response({
+                            "type": "agent",
+                            "answer": str(agent_data)
+                        }, status=status.HTTP_200_OK)
+                except json.JSONDecodeError:
+                    return Response({
+                        "type": "agent",
+                        "answer": result
+                    }, status=status.HTTP_200_OK)
 
         else:
             conversational_rag_chain = get_conversational_rag_chain()
