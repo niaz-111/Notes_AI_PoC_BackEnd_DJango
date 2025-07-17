@@ -1,4 +1,4 @@
-from moviepy import VideoFileClip
+from moviepy.editor import VideoFileClip
 from tqdm import tqdm
 
 def extract_audio(video_path, audio_path):

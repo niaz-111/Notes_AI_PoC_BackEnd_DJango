@@ -70,6 +70,21 @@ pip install opencv-python torch transformers numpy tqdm pillow
    - Why: Robust image processing capabilities
    - Used for: Saving and manipulating extracted frames
 
+### Use of packages
+- **Audio Extraction**: moviepy library is used to extract audio from a video file. moviepy is a library of video editing utilities in Python, and in the backend it uses ffmpeg for media processing.
+
+- **Good Frame Extraction**: 
+OpenCV is used to read and process video frames. It is a library of real-time computer vision tools, and in the backend it uses optimized C/C++ code for high-performance image processing.
+
+Transformers (HuggingFace) with the CLIP model are used for semantic frame comparison. Transformers is a library for state-of-the-art deep learning models, and in the backend it uses PyTorch for inference.
+
+NumPy and collections are used for efficient numerical operations and frame tracking. NumPy handles vector math under the hood with C backend, and collections offers optimized data structures.
+
+- **Audio Transcribe**: whisper library is used to transcribe audio into text. whisper is a library of automatic speech recognition models by OpenAI, and in the backend it uses deep learning models built with PyTorch.
+
+- **Frame Transcribe**: The code uses the BLIP model from Hugging Face transformers, where BlipProcessor preprocesses images and BlipForConditionalGeneration generates text captions from those images.
+
+
 ### CLIP Model
 
 The CLIP (Contrastive Language-Image Pre-training) model is central to this tool's functionality:

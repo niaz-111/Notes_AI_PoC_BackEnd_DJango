@@ -38,23 +38,26 @@ def generate_video_description(combined_transcription_path, output_dir):
     print("Preparing prompt...")
     prompt = """You are a professional video narrator. Based on the following video segments, create a concise and content-rich story format description of the video. 
     Focus on the key events and information, maintaining a clear chronological flow. 
-    After each paragraph, include the relevant timestamp and frame path in parentheses when available.
+    Generate a context based title for the video based on the content and put it in the first line in following format [TITLE-Title].
     
+    After each paragraph, include the timestamp in following format [TIMESTAMP-MM:SS] and when available include the most relevant frame in following format [FRAME-MM:SS].
+    Don't use the timestamp in the description like this "By 5.80 seconds, the narrator explains". It's not necessary there will always be a narrator in the video, the video could be speechless.
     Video Segments:
     """
     
     # Add each segment to the prompt
     for segment in combined_data:
-        prompt += f"\nTimestamp: {segment['timestamp']:.2f}s"
-        prompt += f"\nAudio: {segment['audio_text']}"
+        prompt += f"[Timestamp: {segment['timestamp']:.2f}s, "
+        prompt += f"Audio: {segment['audio_text']}, "
         if 'frames' in segment and segment['frames']:
             # Add all frames for this segment
+            prompt += "("
             for frame in segment['frames']:
-                prompt += f"\nVisual: {frame['description']}"
-                prompt += f"\nImage path: {frame['path']}"
-        prompt += "\n"
+                prompt += f"Visual: {frame['description']}, "
+            prompt += ")"
+        prompt += "]\n"
     
-    prompt += "\nPlease provide a concise story-format description of the video, with timestamps and frame paths in parentheses when available."
+    prompt += "\nPlease provide a concise story-format description of the video and don't makeup things keep it real."
     
     print("Sending request to OpenAI API...")
     try:
