@@ -29,6 +29,7 @@ build/
 *.pyc
 __pycache__
 db.sqlite3
+chroma_store
 media
 
 # Backup files # 
