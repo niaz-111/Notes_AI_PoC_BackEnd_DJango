@@ -33,7 +33,6 @@ def combine_transcriptions(audio_transcription, frame_descriptions, output_dir):
         
         # Add the frame to the list for this audio segment
         frame_to_audio[audio_time].append({
-            "path": frame["path"].replace("\\", "/"),
             "description": frame["text"],
             "timestamp": frame["timestamp"]
         })
