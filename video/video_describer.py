@@ -26,7 +26,7 @@ def generate_video_description(combined_transcription_path, output_dir):
     # Initialize OpenAI client
     client = OpenAI(
         api_key=api_key,
-        base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        base_url=os.getenv("OPENAI_BASE_URL")
     )
     
     # Read the combined transcription
@@ -40,7 +40,7 @@ def generate_video_description(combined_transcription_path, output_dir):
     Focus on the key events and information, maintaining a clear chronological flow. 
     Generate a context based title for the video based on the content and put it in the first line in following format [TITLE-Title].
     
-    After each paragraph, include the timestamp in following format [TIMESTAMP-MM:SS] and when available include the most relevant frame in following format [FRAME-MM:SS].
+    After each paragraph, include the timestamp in following format [TIMESTAMP-Second:Milisecond] and when available include the most relevant frames in following format [FRAME-Second:Milisecond]. Content Of the added frame must be meaningfull and aligned with the context.
     Don't use the timestamp in the description like this "By 5.80 seconds, the narrator explains". It's not necessary there will always be a narrator in the video, the video could be speechless.
     Video Segments:
     """
@@ -63,7 +63,7 @@ def generate_video_description(combined_transcription_path, output_dir):
     try:
         # Generate the description using OpenAI
         response = client.chat.completions.create(
-            model=os.getenv("OPENAI_MODEL", "gpt-3.5-turbo"),
+            model=os.getenv("OPENAI_MODEL"),
             messages=[
                 {"role": "system", "content": "You are a professional video narrator."},
                 {"role": "user", "content": prompt}
@@ -93,4 +93,4 @@ def generate_video_description(combined_transcription_path, output_dir):
     except Exception as e:
         print(f"Error generating video description: {str(e)}")
         print("Response object:", response)
-        raise 
+        return ""

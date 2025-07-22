@@ -1,8 +1,4 @@
-# Python virtual environment
-venv/
-.venv/
-env/
-ENV/
+.env
 
 # Python byte-compiled files
 __pycache__/
@@ -19,9 +15,6 @@ build/
 .vscode/
 *.swp
 *.swo
-
-# Environment variables
-# .env
 
 # Logs
 *.log
@@ -169,3 +162,6 @@ GitHub.sublime-settings
 *.mp4
 *.avi
 *.mov 
+
+
+temp_output/

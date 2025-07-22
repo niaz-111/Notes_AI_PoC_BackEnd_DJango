@@ -39,12 +39,13 @@ def process_uploaded_video(video_path, video_id):
 
     except Exception as e:
         redis_client.setex(f"video_summary:{video_id}", 3600, f"ERROR: {str(e)}")
-    finally:
+
+    # finally:
         # Cleanup temp files
-        if os.path.exists(output_dir):
-            shutil.rmtree(output_dir)
-        if os.path.exists(video_path):
-            os.remove(video_path)
+        # if os.path.exists(output_dir):
+        #     shutil.rmtree(output_dir)
+        # if os.path.exists(video_path):
+        #     os.remove(video_path)
 
 
 @shared_task
@@ -75,9 +76,10 @@ def process_youtube_video(video_url, video_id):
 
     except Exception as e:
         redis_client.setex(f"video_summary:{video_id}", 3600, f"ERROR: {str(e)}")
-    finally:
+        
+    # finally:
         # Cleanup temp files
-        if os.path.exists(output_dir):
-            shutil.rmtree(output_dir)
-        if os.path.exists(video_path):
-            os.remove(video_path)
+        # if os.path.exists(output_dir):
+        #     shutil.rmtree(output_dir)
+        # if os.path.exists(video_path):
+        #     os.remove(video_path)
