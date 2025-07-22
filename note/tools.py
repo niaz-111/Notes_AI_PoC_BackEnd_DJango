@@ -1,6 +1,7 @@
 from langchain_core.tools import tool
 from .llm_instance import llm
 from .vectorestore import get_vectorstore
+from .retriever import get_selfquery_retriever
 import json
 
 # === Tool 1: Create Note from Prompt ===
@@ -66,8 +67,11 @@ def open_note_tool(query: str) -> str:
     Output: JSON with keys: tool, payload (note info or error).
     """
     try:
-        vectorstore = get_vectorstore()
-        results = vectorstore.similarity_search(query, k=3)
+        #vectorstore = get_vectorstore()
+        #results = vectorstore.similarity_search(query, k=3)
+
+        retriever = get_selfquery_retriever(k=3)
+        results = retriever.get_relevant_documents(query)
 
         if not results:
             return json.dumps({
