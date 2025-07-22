@@ -101,29 +101,39 @@ def open_note_tool(query: str) -> str:
 def search_note_tool(query: str) -> str:
     """
     Searches for notes by topic, title, or content keywords.
-    Input: query string
-    Output: JSON with keys: tool, payload (list of notes or error).
+    Only returns highly relevant matches based on score.
     """
     try:
         vectorstore = get_vectorstore()
-        results = vectorstore.similarity_search(query, k=10)
 
-        if not results:
+        # Returns (Document, score) pairs
+        raw_results = vectorstore.similarity_search_with_score(query, k=10)
+
+        # Confidence threshold
+        threshold = 1
+        filtered = [(doc, score) for doc, score in raw_results if score <= threshold]
+
+        if not filtered:
             return json.dumps({
                 "tool": "search_note_tool",
                 "payload": {
                     "matches_found": False,
                     "notes": [],
-                    "error": "No relevant notes found."
+                    "error": "No highly relevant notes found."
                 }
             })
 
+        seen = set()
         notes = []
-        for doc in results:
-            notes.append({
-                "note_title": doc.metadata.get("title", "Untitled"),
-                "note_uid": doc.metadata.get("uid", "")
-            })
+        for doc, score in filtered:
+            uid = doc.metadata.get("uid", "")
+            if uid not in seen:
+                seen.add(uid)
+                notes.append({
+                    "note_title": doc.metadata.get("title", "Untitled"),
+                    "note_uid": uid,
+                    "score": round(score, 3)  # optional: include score for debug
+                })
 
         return json.dumps({
             "tool": "search_note_tool",

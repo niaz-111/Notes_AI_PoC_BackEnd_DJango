@@ -12,7 +12,7 @@ from .qa_chain import get_retrieval_qa_chain
 from .chat_session_manager import clear_all_sessions
 from .agent_executor import get_agent_executor, get_agent_executor_with_history
 from .query_classifier import is_agent_task,is_agent_task_precise
-from .image_description_generator import generate_image_caption
+from .image_description_generator import generate_image_caption, generate_gemini_caption
 from langchain_core.exceptions import OutputParserException
 import json
 
@@ -51,7 +51,8 @@ def upload_note_with_file(request):
                     note_parts.append(f"[Text]: {text.strip()}")
                 elif part_type == "image":
                     path = request.POST.get(f"part_{i}_image_path", "")
-                    caption = generate_image_caption(path)  # Local captioning
+                    #caption = generate_image_caption(path)  # Local captioning
+                    caption = generate_gemini_caption(path)  # Gemini captioning
                     note_parts.append(f"[Image {image_index+1} Caption]: {caption}\n[Image Path]: {path}")
                     image_index += 1
                 i += 1
