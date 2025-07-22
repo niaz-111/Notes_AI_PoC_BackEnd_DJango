@@ -18,8 +18,11 @@ def generate_video_description(combined_transcription_path, output_dir):
     load_dotenv()
     
     # Check if API key is available
-    api_key = "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" # os.getenv("OPENAI_API_KEY")
+    # api_key = "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" # os.getenv("OPENAI_API_KEY")
+    # api_key = "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"
     # api_key = "AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM"
+    # api_key = "AIzaSyDqhLSApQX7e5NG-cJIPGZK84FgZM8HH9E"
+    api_key = "AIzaSyCZXKdhJ4FYnH5caA3p7yRv4Y4DG6UI2Ro"
     if not api_key:
         raise ValueError("OPENAI_API_KEY not found in environment variables. Please set it in your .env file.")
     
@@ -27,8 +30,8 @@ def generate_video_description(combined_transcription_path, output_dir):
     # Initialize OpenAI client
     client = OpenAI(
         api_key=api_key,
-        base_url="https://openrouter.ai/api/v1", # os.getenv("OPENAI_BASE_URL")
-        # base_url="https://generativelanguage.googleapis.com/v1beta"
+        # base_url="https://openrouter.ai/api/v1", # os.getenv("OPENAI_BASE_URL")
+        base_url="https://generativelanguage.googleapis.com/v1beta",
     )
     
     # Read the combined transcription
@@ -85,6 +88,7 @@ def generate_video_description(combined_transcription_path, output_dir):
         If a visual frame doesn't contain anything meaningful or a blank screen, do not include it in the visual frames timestamps.
         Must not give a timestamp which is not mentioned in Video Segments.
         Please Don't give all the Visual Frames Timestamp, only give the most relevant visual frames timestamps that are meaningful and aligned with the context of the video.
+        Must not give two Visual Frames Timestamp with the same content.
     """
     
     print("\n\n", {prompt} ,"\n\n")
@@ -93,14 +97,14 @@ def generate_video_description(combined_transcription_path, output_dir):
     try:
         # Generate the description using OpenAI
         response = client.chat.completions.create(
-            model="deepseek/deepseek-chat-v3-0324:free", # os.getenv("OPENAI_MODEL"),
-            # model="models/gemini-2.5-flash"
+            # model="deepseek/deepseek-chat-v3-0324:free", # os.getenv("OPENAI_MODEL"),
+            model="models/gemini-2.5-flash",
             messages=[
                 {"role": "system", "content": "You are a professional video narrator."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
-            max_tokens=2000
+            # temperature=0.7,
+            # max_tokens=2000
         )
         
         if not response or not response.choices:
