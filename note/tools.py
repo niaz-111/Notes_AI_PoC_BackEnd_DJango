@@ -8,7 +8,7 @@ import json
 def create_note_from_prompt(prompt: str) -> str:
     """
     Creates a note from a natural language prompt.
-    Returns a JSON string with keys: title, content.
+    Returns a JSON string with keys: tool, payload (with title and content).
     """
     system_instruction = """
 You are an intelligent note-creating agent.
@@ -43,9 +43,18 @@ content: <note content>
             note_content = line.split(":", 1)[1].strip()
 
     if not title or not note_content:
-        return json.dumps({"error": "Failed to generate a note with title and content."})
+        return json.dumps({
+            "tool": "create_note_from_prompt",
+            "payload": {"error": "Failed to generate a note with title and content."}
+        })
 
-    return json.dumps({"title": title, "content": note_content})
+    return json.dumps({
+        "tool": "create_note_from_prompt",
+        "payload": {
+            "title": title,
+            "content": note_content
+        }
+    })
 
 
 # === Tool 2: Open Note by Query ===
@@ -54,25 +63,37 @@ def open_note_tool(query: str) -> str:
     """
     Use vectorstore similarity search to find the most relevant note.
     Input: query string (title or topic)
-    Output: JSON with note_found, title, content, uid or error.
+    Output: JSON with keys: tool, payload (note info or error).
     """
     try:
         vectorstore = get_vectorstore()
         results = vectorstore.similarity_search(query, k=3)
 
         if not results:
-            return json.dumps({"note_found": False, "error": "No relevant notes found."})
+            return json.dumps({
+                "tool": "open_note_tool",
+                "payload": {"note_found": False, "error": "No relevant notes found."}
+            })
 
         top_doc = results[0]
 
         return json.dumps({
-            "note_found": True,
-            "note_title": top_doc.metadata.get("title", "Untitled"),            
-            "note_uid": top_doc.metadata.get("uid", "")
+            "tool": "open_note_tool",
+            "payload": {
+                "note_found": True,
+                "note_title": top_doc.metadata.get("title", "Untitled"),
+                "note_uid": top_doc.metadata.get("uid", "")
+            }
         })
 
     except Exception as e:
-        return json.dumps({"note_found": False, "error": f"Error retrieving notes: {str(e)}"})
+        return json.dumps({
+            "tool": "open_note_tool",
+            "payload": {
+                "note_found": False,
+                "error": f"Error retrieving notes: {str(e)}"
+            }
+        })
 
 
 # === Tool 3: Search Notes ===
@@ -80,37 +101,55 @@ def open_note_tool(query: str) -> str:
 def search_note_tool(query: str) -> str:
     """
     Searches for notes by topic, title, or content keywords.
-    Input: query string
-    Output: JSON with list of matching note previews.
+    Only returns highly relevant matches based on score.
     """
     try:
         vectorstore = get_vectorstore()
-        results = vectorstore.similarity_search(query, k=10)
 
-        if not results:
+        # Returns (Document, score) pairs
+        raw_results = vectorstore.similarity_search_with_score(query, k=10)
+
+        # Confidence threshold
+        threshold = 1
+        filtered = [(doc, score) for doc, score in raw_results if score <= threshold]
+
+        if not filtered:
             return json.dumps({
-                "matches_found": False,
-                "notes": [],
-                "error": "No relevant notes found."
+                "tool": "search_note_tool",
+                "payload": {
+                    "matches_found": False,
+                    "notes": [],
+                    "error": "No highly relevant notes found."
+                }
             })
 
+        seen = set()
         notes = []
-        for doc in results:
-            notes.append({
-                "note_title": doc.metadata.get("title", "Untitled"),
-                "note_uid": doc.metadata.get("uid", ""),                
-            })
+        for doc, score in filtered:
+            uid = doc.metadata.get("uid", "")
+            if uid not in seen:
+                seen.add(uid)
+                notes.append({
+                    "note_title": doc.metadata.get("title", "Untitled"),
+                    "note_uid": uid,
+                    "score": round(score, 3)  # optional: include score for debug
+                })
 
         return json.dumps({
-            "matches_found": True,
-            "query": query,
-            "notes": notes
+            "tool": "search_note_tool",
+            "payload": {
+                "matches_found": True,
+                "query": query,
+                "notes": notes
+            }
         })
 
     except Exception as e:
         return json.dumps({
-            "matches_found": False,
-            "notes": [],
-            "error": f"Error searching notes: {str(e)}"
+            "tool": "search_note_tool",
+            "payload": {
+                "matches_found": False,
+                "notes": [],
+                "error": f"Error searching notes: {str(e)}"
+            }
         })
-
