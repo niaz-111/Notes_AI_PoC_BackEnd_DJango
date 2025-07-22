@@ -18,7 +18,8 @@ def generate_video_description(combined_transcription_path, output_dir):
     load_dotenv()
     
     # Check if API key is available
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = "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" # os.getenv("OPENAI_API_KEY")
+    # api_key = "AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM"
     if not api_key:
         raise ValueError("OPENAI_API_KEY not found in environment variables. Please set it in your .env file.")
     
@@ -26,7 +27,8 @@ def generate_video_description(combined_transcription_path, output_dir):
     # Initialize OpenAI client
     client = OpenAI(
         api_key=api_key,
-        base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        base_url="https://openrouter.ai/api/v1", # os.getenv("OPENAI_BASE_URL")
+        # base_url="https://generativelanguage.googleapis.com/v1beta"
     )
     
     # Read the combined transcription
@@ -34,33 +36,65 @@ def generate_video_description(combined_transcription_path, output_dir):
     with open(combined_transcription_path, 'r', encoding='utf-8') as f:
         combined_data = json.load(f)
     
+    print(f"\n\n{json.dumps(combined_data, indent=2)}\n\n")
+
     # Prepare the prompt
     print("Preparing prompt...")
-    prompt = """You are a professional video narrator. Based on the following video segments, create a concise and content-rich story format description of the video. 
+    prompt = """You are a professional video narrator. Based on the following visual and audio description, create a concise and content-rich story format description of the video. 
     Focus on the key events and information, maintaining a clear chronological flow. 
-    After each paragraph, include the relevant timestamp and frame path in parentheses when available.
+
+    Generate a context based title for the video based on the content and put it in the first line in following format [TITLE-Content].
+    
+    At the end of each paragraph include the timestamp in following example format [TIMESTAMP-05.00s].
+    Also at the end of each paragraph include the most relevant visual frames timestamps in following example format [FRAME-16.00s, 19.05s, 25.00s] , content Of the added visual frames must be meaningfull and aligned with the context.
+    
+    Don't explicitly add the visual frame description in the frames timestamps, just add the frames timestamps in the end of the paragraph.
+    Combine the audio and visual information to create a cohesive narrative.
+
+    Don't use the timestamp in the description like this "By 05.80 seconds, the narrator explains". 
+    It's not necessary there will always be a narrator in the video, the video could be speechless.
     
     Video Segments:
     """
     
     # Add each segment to the prompt
-    for segment in combined_data:
-        prompt += f"\nTimestamp: {segment['timestamp']:.2f}s"
-        prompt += f"\nAudio: {segment['audio_text']}"
-        if 'frames' in segment and segment['frames']:
-            # Add all frames for this segment
-            for frame in segment['frames']:
-                prompt += f"\nVisual: {frame['description']}"
-                prompt += f"\nImage path: {frame['path']}"
-        prompt += "\n"
+    # prompt += "[\n"
+    # for segment in combined_data:
+    #     prompt += "{"
+    #     prompt += f"Timestamp: {segment['timestamp']}, "
+    #     prompt += f"Audio: {segment['audio_text']}, "
+    #     if 'frames' in segment and segment['frames']:
+    #         # Add all frames for this segment
+    #         prompt += "Frames: ["
+    #         for frame in segment['frames']:
+    #             prompt += "{"
+    #             prompt += f"Visual: {frame['description']}, "
+    #             prompt += f"Timestamp: {frame['timestamp']}"
+    #             prompt += "}, \n"
+    #         prompt += "]"
+    #     prompt += "},\n"
+    # prompt += "]\n\n"
+    prompt += json.dumps(combined_data, indent=2)
+
+    prompt += """
+        \n\nCombine the audio and visual information to create a cohesive narrative. Please provide a concise story-format description of the video and don't makeup things keep it real.
+        For Timestamp must use this example format [TIMESTAMP-05.00s] and for visual frames timestamps must use this example format [FRAME-16.00s, 19.05s, 25.00s].
+        And must not add visual frames timestamps where the description is not relevant to the video content. 
+        Only add visual frames timestamps if needed, don't unnecesserely do it. There could be zero or more visual frames timestamps.
+        Don't use the example times used in this prompt, use the actual times from the visual segments.
+        If a visual frame doesn't contain anything meaningful or a blank screen, do not include it in the visual frames timestamps.
+        Must not give a timestamp which is not mentioned in Video Segments.
+        Please Don't give all the Visual Frames Timestamp, only give the most relevant visual frames timestamps that are meaningful and aligned with the context of the video.
+    """
     
-    prompt += "\nPlease provide a concise story-format description of the video, with timestamps and frame paths in parentheses when available."
-    
+    print("\n\n", {prompt} ,"\n\n")
+
     print("Sending request to OpenAI API...")
     try:
         # Generate the description using OpenAI
         response = client.chat.completions.create(
-            model=os.getenv("OPENAI_MODEL", "gpt-3.5-turbo"),
+            model="deepseek/deepseek-chat-v3-0324:free", # os.getenv("OPENAI_MODEL"),
+            # model="models/gemini-2.5-flash"
             messages=[
                 {"role": "system", "content": "You are a professional video narrator."},
                 {"role": "user", "content": prompt}
@@ -90,4 +124,4 @@ def generate_video_description(combined_transcription_path, output_dir):
     except Exception as e:
         print(f"Error generating video description: {str(e)}")
         print("Response object:", response)
-        raise 
+        return ""
