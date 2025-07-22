@@ -5,13 +5,30 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
-from .tasks import process_uploaded_video
+from .tasks import process_uploaded_video, process_youtube_video
 from dotenv import load_dotenv
 
 load_dotenv()
 
 # Initialize Redis
 redis_client = redis.Redis.from_url(os.getenv("REDIS_URL"))
+
+class YouTubeDownloadView(APIView):
+    def post(self, request):
+        youtube_url = request.data.get("youtube-video")
+        
+        if not youtube_url:
+            return Response({"error": "YouTube URL is required."}, status=400)
+
+        video_id = str(uuid.uuid4())
+        try:
+            redis_client.setex(f"video_summary:{video_id}", 3600, "PROCESSING")
+            process_youtube_video.delay(youtube_url, video_id)
+
+            return Response({"video_id": video_id}, status=202)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
 
 class VideoUploadView(APIView):
     def post(self, request):
