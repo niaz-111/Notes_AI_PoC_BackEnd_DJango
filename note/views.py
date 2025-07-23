@@ -12,7 +12,7 @@ from .qa_chain import get_retrieval_qa_chain
 from .chat_session_manager import clear_all_sessions
 from .agent_executor import get_agent_executor, get_agent_executor_with_history
 from .query_classifier import is_agent_task,is_agent_task_precise
-from .image_description_generator import generate_image_caption
+from .image_description_generator import generate_image_caption, generate_gemini_caption
 from langchain_core.exceptions import OutputParserException
 import json
 
@@ -51,7 +51,8 @@ def upload_note_with_file(request):
                     note_parts.append(f"[Text]: {text.strip()}")
                 elif part_type == "image":
                     path = request.POST.get(f"part_{i}_image_path", "")
-                    caption = generate_image_caption(path)  # Local captioning
+                    #caption = generate_image_caption(path)  # Local captioning
+                    caption = generate_gemini_caption(path)  # Gemini captioning
                     note_parts.append(f"[Image {image_index+1} Caption]: {caption}\n[Image Path]: {path}")
                     image_index += 1
                 i += 1
@@ -98,32 +99,37 @@ def ask_question_agent(request):
                     "answer": str(e)  # fallback as plain message
                 }, status=status.HTTP_200_OK)
 
-            # Try parsing the agent tool result
-            if isinstance(result, dict):
-                return Response({
-                    "type": "agent",
-                    "agent_data": result
-                }, status=status.HTTP_200_OK)
+            # Extract agent's output (Final Answer)
+            output = result["output"] if isinstance(result, dict) else str(result)
 
-            elif isinstance(result, str):
-                # Try parsing JSON if it was a dumped string (tool may return JSON string by mistake)
-                try:
-                    agent_data = json.loads(result)
-                    if isinstance(agent_data, dict):
-                        return Response({
-                            "type": "agent",
-                            "agent_data": agent_data
-                        }, status=status.HTTP_200_OK)
-                    else:
-                        return Response({
-                            "type": "agent",
-                            "answer": str(agent_data)
-                        }, status=status.HTTP_200_OK)
-                except json.JSONDecodeError:
+            # Parse the expected JSON tool output
+            try:
+                parsed = json.loads(output)
+
+                tool_name = parsed.get("tool")
+                payload = parsed.get("payload")
+
+                if not tool_name or payload is None:
+                    # Malformed result, fallback to showing raw
                     return Response({
                         "type": "agent",
-                        "answer": result
+                        "answer": output
                     }, status=status.HTTP_200_OK)
+
+                return Response({
+                    "type": "agent",
+                    "agent_data": {
+                        "tool": tool_name,
+                        "payload": payload
+                    }
+                }, status=status.HTTP_200_OK)
+
+            except json.JSONDecodeError:
+                # Tool output was not valid JSON
+                return Response({
+                    "type": "agent",
+                    "answer": output
+                }, status=status.HTTP_200_OK)
 
         else:
             conversational_rag_chain = get_conversational_rag_chain()
@@ -133,6 +139,19 @@ def ask_question_agent(request):
 
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def infer_tool_from_output(parsed: dict) -> str:
+    if not isinstance(parsed, dict):
+        return "unknown_tool"
+
+    if "note_uid" in parsed and parsed.get("note_found") is not False:
+        return "open_note_tool"
+    elif "notes" in parsed:
+        return "search_note_tool"
+    elif "title" in parsed and "content" in parsed:
+        return "create_note_from_prompt"
+    return "unknown_tool"
 
 
 @api_view(['POST'])

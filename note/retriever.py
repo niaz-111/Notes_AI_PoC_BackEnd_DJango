@@ -83,7 +83,7 @@ def get_selfquery_retriever(k: int = 50, fetch_k: int = 150, metadata_filter=Non
         ),
     ]
 
-    document_content_description = "A chunk of a document containing relevant information for answering user queries."
+    document_contents = "A chunk of a document containing relevant information for answering user queries."
 
     search_kwargs = {"k": k, "fetch_k": fetch_k}
     if metadata_filter:
@@ -91,9 +91,9 @@ def get_selfquery_retriever(k: int = 50, fetch_k: int = 150, metadata_filter=Non
 
     retriever = SelfQueryRetriever.from_llm(
         llm=llm,
-        document_contents="content",
         vectorstore=vectordb,
-        document_content_description=document_content_description,
+        document_contents = document_contents,
+        document_content_description = document_contents,
         metadata_field_info=metadata_field_info,
         search_kwargs={"k": k},
     )
