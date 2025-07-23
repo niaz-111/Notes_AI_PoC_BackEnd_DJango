@@ -89,6 +89,7 @@ def generate_video_description(combined_transcription_path, output_dir):
         Must not give a timestamp which is not mentioned in Video Segments.
         Please Don't give all the Visual Frames Timestamp, only give the most relevant visual frames timestamps that are meaningful and aligned with the context of the video.
         Must not give two Visual Frames Timestamp with the same content.
+        Make the final result more descriptive, more detailed and content rich with more paragraph.
     """
     
     print("\n\n", {prompt} ,"\n\n")
