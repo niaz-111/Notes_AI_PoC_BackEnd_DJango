@@ -18,13 +18,10 @@ OLLAMA_URL = "http://127.0.0.1:11434"
 #     convert_system_message_to_human=True
 # )
 
-#AIzaSyDRFIqQrekDkbULaXo8TbIrdZSz7P7TPMk
-#AIzaSyD2QD_eASRj1mdZKliFXIfgPKh253KTmBE
-
 #gemini flash 2.5 API key
 llm = ChatGoogleGenerativeAI(
     model="models/gemini-2.5-flash",  
-    google_api_key="AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM",     
+    google_api_key="AIzaSyD2QD_eASRj1mdZKliFXIfgPKh253KTmBE",     
     temperature=0,
     convert_system_message_to_human=True
 )
