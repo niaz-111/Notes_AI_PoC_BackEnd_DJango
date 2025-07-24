@@ -16,7 +16,7 @@ load_dotenv()
 
 redis_client = redis.Redis.from_url(os.getenv("REDIS_URL"))
 
-@shared_task
+
 def process_uploaded_video(video_path, video_id):
     try:
         output_dir = f"temp_output/{video_id}"
@@ -46,6 +46,11 @@ def process_uploaded_video(video_path, video_id):
         #     shutil.rmtree(output_dir)
         # if os.path.exists(video_path):
         #     os.remove(video_path)
+
+# Optional Celery wrapper (if needed again later)
+@shared_task
+def process_uploaded_video_task(video_path, video_id):
+    process_uploaded_video(video_path, video_id)
 
 
 @shared_task

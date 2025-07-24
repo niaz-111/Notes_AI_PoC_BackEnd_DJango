@@ -12,11 +12,13 @@ def process_video(video_path, output_dir):
     audio_path = os.path.join(output_dir, "audio.wav")
     frames_dir = os.path.join(output_dir, "frames")
 
+    print("\naudio_path:", audio_path)
+
     audio = extract_audio(video_path, audio_path)
     frames = extract_good_frames(video_path, frames_dir)
 
     return {
-        "audio": audio,
+        "audio": audio_path,
         "frames": frames
     }
 

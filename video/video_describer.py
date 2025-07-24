@@ -22,7 +22,8 @@ def generate_video_description(combined_transcription_path, output_dir):
     # api_key = "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"
     # api_key = "AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM"
     # api_key = "AIzaSyDqhLSApQX7e5NG-cJIPGZK84FgZM8HH9E"
-    api_key = "AIzaSyCZXKdhJ4FYnH5caA3p7yRv4Y4DG6UI2Ro"
+    # api_key = "AIzaSyCZXKdhJ4FYnH5caA3p7yRv4Y4DG6UI2Ro"
+    api_key = "AIzaSyBe1pUiB3v_jLmQ1Cr2iA4twSyJDKscw8g"
     if not api_key:
         raise ValueError("OPENAI_API_KEY not found in environment variables. Please set it in your .env file.")
     
