@@ -1,5 +1,5 @@
 from langchain.agents import AgentExecutor, ZeroShotAgent
-from langchain.agents import load_tools
+from langchain_community.agent_toolkits.load_tools import load_tools
 from .tools import create_note_from_prompt, open_note_tool, search_note_tool
 from .llm_instance import llm
 from .chat_session_manager import get_session_history

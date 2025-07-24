@@ -28,6 +28,8 @@ def generate_frame_descriptions(frames, output_dir):
     Returns:
         str: Path to the saved descriptions file
     """
+    print("Generating frame descriptions...")
+    
     frame_descriptions = []
     for frame in tqdm(frames, desc="Generating frame descriptions"):
         frame_path = frame["frame"]

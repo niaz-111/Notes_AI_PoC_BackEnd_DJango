@@ -18,14 +18,17 @@ OLLAMA_URL = "http://127.0.0.1:11434"
 #     convert_system_message_to_human=True
 # )
 
-#AIzaSyDRFIqQrekDkbULaXo8TbIrdZSz7P7TPMk
-#AIzaSyD2QD_eASRj1mdZKliFXIfgPKh253KTmBE
-#AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM
+# AIzaSyDRFIqQrekDkbULaXo8TbIrdZSz7P7TPMk
+# AIzaSyD2QD_eASRj1mdZKliFXIfgPKh253KTmBE # expired
+# AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM
+# AIzaSyCktwsTXH2pX8mBYuIp_ork0uaWy3WWWIM - azwad
+# AIzaSyCCWL591ROexX76B8tqCk-Vr9EVOtAkEHo - hasan
+# AIzaSyD0ruej5ud-MvX6vlItbrwT-hNKHOXt8XY - asif
 
 #gemini flash 2.5 API key
 llm = ChatGoogleGenerativeAI(
     model="models/gemini-2.5-flash",  
-    google_api_key="AIzaSyD2QD_eASRj1mdZKliFXIfgPKh253KTmBE",     
+    google_api_key="AIzaSyCCWL591ROexX76B8tqCk-Vr9EVOtAkEHo",     
     temperature=0,
     convert_system_message_to_human=True
 )

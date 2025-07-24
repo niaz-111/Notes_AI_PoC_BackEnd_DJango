@@ -1,5 +1,5 @@
 # chatbot/langchain_pipeline/vectorstore.py
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain.schema.document import Document
 from .llm_instance import embedding_model
 

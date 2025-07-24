@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
-from .tasks import process_uploaded_video, process_youtube_video
+from .tasks import process_uploaded_video, process_youtube_video, process_uploaded_video_task
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -49,8 +49,11 @@ class VideoUploadView(APIView):
         redis_client.setex(f"video_summary:{video_id}", 3600, "PROCESSING")
 
         # Start background task
-        process_uploaded_video.delay(temp_video_path, video_id)
-
+        process_uploaded_video_task.delay(temp_video_path, video_id)
+        
+        # syncronously call the task for testing purposes
+        # process_uploaded_video(temp_video_path, video_id)
+        
         return Response({"video_id": video_id}, status=202)
 
 
