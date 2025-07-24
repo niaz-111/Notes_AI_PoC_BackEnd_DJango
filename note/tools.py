@@ -21,6 +21,7 @@ You may:
 - Search the knowledge base (retrieved note chunks).
 - Summarize one or more existing notes.
 - Synthesize insights from related topics.
+- Do not ask question in response, just create content.
 
 You decide how to best serve the request.
 
@@ -36,12 +37,19 @@ content: <note content>
 
     title = ""
     note_content = ""
+    flg = False
 
     for line in lines:
-        if line.lower().startswith("title:"):
+        if "title" in line.lower() and not flg:
             title = line.split(":", 1)[1].strip()
-        elif line.lower().startswith("content:"):
-            note_content = line.split(":", 1)[1].strip()
+        elif flg:
+            note_content += line.strip()
+            note_content += "\n"
+
+        if "content" in line.lower() and not flg:
+            flg = True
+            note_content += line.split(":", 1)[1].strip()
+            note_content += "\n"
 
     if not title or not note_content:
         return json.dumps({
