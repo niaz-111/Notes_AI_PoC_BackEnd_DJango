@@ -92,6 +92,7 @@ If the input does **not clearly match** one of those 3 types (even if it's relat
 - Asking about the content of a note (e.g., "What does the marketing note say?")
 - Asking if you know about a note (e.g., "Do you know about the note titled 'Budget'?")
 - Asking for summaries or explanations (e.g., "Summarize the productivity note")
+- Asking for some notes titles (e.g. tell me which are the notes related movies)
 
 Answer only with:
 - "YES" → if it's an agent task (open/create/search note)

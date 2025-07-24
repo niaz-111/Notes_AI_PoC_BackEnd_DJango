@@ -70,7 +70,7 @@ def open_note_tool(query: str) -> str:
         #vectorstore = get_vectorstore()
         #results = vectorstore.similarity_search(query, k=3)
 
-        retriever = get_selfquery_retriever(k=3)
+        retriever = get_selfquery_retriever(k=50)
         results = retriever.get_relevant_documents(query)
 
         if not results:
@@ -111,11 +111,13 @@ def search_note_tool(query: str) -> str:
         vectorstore = get_vectorstore()
 
         # Returns (Document, score) pairs
-        raw_results = vectorstore.similarity_search_with_score(query, k=10)
+        #raw_results = vectorstore.similarity_search_with_score(query, k=10)
 
         # Confidence threshold
         threshold = 1
-        filtered = [(doc, score) for doc, score in raw_results if score <= threshold]
+        #filtered = [(doc, score) for doc, score in raw_results if score <= threshold]
+
+        filtered = vectorstore.max_marginal_relevance_search(query, k=3, fetch_k=150)
 
         if not filtered:
             return json.dumps({
@@ -127,9 +129,10 @@ def search_note_tool(query: str) -> str:
                 }
             })
 
+        score = 1 #DUMMY
         seen = set()
         notes = []
-        for doc, score in filtered:
+        for doc in filtered:
             uid = doc.metadata.get("uid", "")
             if uid not in seen:
                 seen.add(uid)
