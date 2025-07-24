@@ -20,7 +20,7 @@ OLLAMA_URL = "http://127.0.0.1:11434"
 
 #AIzaSyDRFIqQrekDkbULaXo8TbIrdZSz7P7TPMk
 #AIzaSyD2QD_eASRj1mdZKliFXIfgPKh253KTmBE
-#AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM
+#AIzaSyDHDWYS1aRkHx9gAoGYi0Ya1M5wAh9dlMM - Last
 
 #gemini flash 2.5 API key
 llm = ChatGoogleGenerativeAI(
